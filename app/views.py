@@ -7,7 +7,6 @@ This file creates your application.
 
 from app import app
 from flask import render_template, request, redirect, url_for, flash
-from flask_wtf import Flaskform 
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
@@ -38,7 +37,7 @@ def viewRecipe():
     return render_template('viewRecipe.html')
 @app.route('/login/')
 def login():
-       error = None
+    error = None
     if request.method == 'POST':
     # this part need to change as we get the sql
         if request.form['username'] != app.config['ADMIN_USERNAME'] or request.form['password'] != app.config['ADMIN_PASSWORD']:
@@ -100,13 +99,7 @@ def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
 
-'''connect to mysql database'''
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'meal_planner'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-mysql.init_app(app)
+
 
 
 if __name__ == '__main__':
