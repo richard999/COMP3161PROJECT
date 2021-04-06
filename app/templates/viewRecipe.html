@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block content %}
+<div class="t-container">
+  <table class="table">
+    <tr class="t-heading">
+      <th>Recipe ID</th>
+      <th>Recipe Name</th>
+      <th>Date Created</th>
+    </tr>
+    <tr class="clickable-row">
+      <td data-th="">1</td>
+      <td data-th="">{{ recipe_name }}</td>
+      <td data-th="">00/00/0000</td>
+    </tr>
+  </table>
+</div>
+
+{% endblock %}

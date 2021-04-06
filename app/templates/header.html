@@ -11,6 +11,21 @@
       <li class="nav-item active">
         <a class="nav-link" href="{{ url_for('about') }}">About</a>
       </li>
+      <li class="nav-link active">
+        <a class="nav-link" href="{{url_for('login') }}">login</a>
+      </li>
+      <li class="nav-link active">
+        <a class="nav-link" href="{{url_for('signup') }}">Sign Up</a>
+      </li>
+      <li class="nav-link active">
+        <a class="nav-link" href="{{url_for('newMealPlan') }}">New MealPlan</a>
+      </li>
+      <li class="nav-link active">
+        <a class="nav-link" href="{{url_for('AddRecipe') }}">Add Recipe</a>
+      </li>
+      <li class="nav-link active">
+        <a class="nav-link" href="{{url_for('recipe/<recipe_name>') }}">View Recipe</a>
+      </li>
     </ul>
   </div>
 </nav>
