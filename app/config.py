@@ -4,8 +4,14 @@ class Config(object):
     """Base Config Object"""
     DEBUG = False
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'Som3$ec5etK*y'
-    #SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgresql://yourusername:yourpassword@localhost/databasename'
-    #SQLALCHEMY_TRACK_MODIFICATIONS = False # This is just here to suppress a warning from SQLAlchemy as it will soon be removed
+    UPLOAD_FOLDER = './uploads'
+
+dbconfig = { 
+    'host': os.environ.get('MYSQL_HOST') or 'localhost',
+    'user' : os.environ.get('MYSQL_USER') or 'root',
+    'password' : os.environ.get('MYSQL_PASSWORD') or  '',
+    'db' : os.environ.get('MYSQL_DB') or 'meal_planner'
+}
 
 class DevelopmentConfig(Config):
     """Development Config that extends the Base Config Object"""
