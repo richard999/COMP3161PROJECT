@@ -1,3 +1,20 @@
 body {
-    padding-top: 50px;
+    padding-top: 90px;
+}
+
+.rq{
+    color: red;
+    font-weight: normal;
+
+}
+p{
+    font-weight: normal;
+}
+label{
+    font-weight: bold;
+}
+
+.signup{
+    font-size: 50px;
+    padding-bottom: 30px;
 }

@@ -4,11 +4,17 @@ Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
 Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
-
-from app import app
+import os
+from app import app, db, login_manager
+from .forms import ContactForm
+from .loginform import LoginForm
 from flask import render_template, request, redirect, url_for, flash
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
+from flask_login import login_user, logout_user, current_user, login_required
+from app.forms import ContactForm
+#from app.models import UserProfile
+from werkzeug.security import check_password_hash
 
 
 ###
@@ -35,26 +41,48 @@ def addRecipe():
 @app.route('/recipe')
 def viewRecipe():
     return render_template('viewRecipe.html')
-@app.route('/login/')
+
+
+
+@app.route('/login/',methods=["GET", "POST"])
 def login():
-    error = None
-    if request.method == 'POST':
-    # this part need to change as we get the sql
-        if request.form['username'] != app.config['ADMIN_USERNAME'] or request.form['password'] != app.config['ADMIN_PASSWORD']:
-            error = 'Invalid username or password'
-        else:
-            session['logged_in'] = True
-            
-            flash('You were logged in', 'success')
-            return redirect(url_for('upload'))
-    return render_template('login.html', error=error)
+        if current_user.is_authenticated:
+            return redirect(url_for('dashboard'))
+        lform = LoginForm()
+        if request.method == "POST" and form.validate_on_submit():
+            email = lform.username.data
+            password = lform.password.data
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT * FROM User WHERE email= %s AND password = %s', (email, password,))
+            user = cursor.fetchone()
+
+
+
+
+
+
 @app.route('/logout/')
 def logout():
     render_template('logout.html')
     
 @app.route('/signup/')
 def signUp():
-    return render_template('sign_up.html')
+    cform = ContactForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        if cform.validate_on_submit():
+            firstname = cform.name.data
+            lastname = cform.name.data
+            email = cform.email.data
+            password = cform.password.data
+            address = cform.password.data
+
+            
+            flash("Sign up Complete !", "Successful")
+            return redirect(url_for('login'))
+   
+        flash_errors(cform)
+    return render_template('sign_up.html', contact=cform)
+
 
 @app.route('/newMealPlan/')
 def createMealPlan():
