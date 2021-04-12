@@ -10,7 +10,7 @@ dbconfig = {
     'host': os.environ.get('MYSQL_HOST') or 'localhost',
     'user' : os.environ.get('MYSQL_USER') or 'root',
     'password' : os.environ.get('MYSQL_PASSWORD') or  '',
-    'db' : os.environ.get('MYSQL_DB') or 'meal_planner'
+    'db' : os.environ.get('MYSQL_DB') or 'finalproject2.sql'
 }
 
 class DevelopmentConfig(Config):

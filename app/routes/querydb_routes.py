@@ -12,7 +12,7 @@ increment_by = 25
 @query_db.route('/get_n_recipes')
 def get_n_recipes():
     global start_index
-    recipes = query_database.getNRecipes(start_index, increment_by)
+    recipes = Query.getNRecipes(start_index, increment_by)
     start_index += increment_by
     return str([recipe['recipe_name'] for recipe in recipes])
 
@@ -26,12 +26,12 @@ def reset_index():
 @query_db.route('/get_all_measurements')
 def get_all_measurements():
     query = Query(DBQuery(mysql))
-    measurements = query.getAllMeasurements()
+    measurements = Query.getAllMeasurements()
     return str(measurements)
 
 @query_db.route('/get_recipe')
 def get_recipe():
-   return str(query_database.getRecipeByName('low fat berry blue frozen dessert'))
+   return str(Query.getRecipeByName('low fat berry blue frozen dessert'))
 
 @query_db.route('/get_meal_plan')
 def get_meal_plan():
@@ -40,7 +40,7 @@ def get_meal_plan():
     startDate = datetime.datetime(2021,4,1)
     endDate = datetime.datetime(2021, 4, 1)
 
-    return str(query_database.getMealPlan(user,startDate,endDate))
+    return str(Query.getMealPlan(user,startDate,endDate))
 
 @query_db.route('/generate_lst')
 def generate_lst():
@@ -49,31 +49,20 @@ def generate_lst():
     startDate = datetime.datetime(2021,4,1)
     endDate = datetime.datetime(2021, 4, 15)
 
-    return str(query_database.generateSupermarketList(user,startDate,endDate))
+    return str(Query.generateSupermarketList(user,startDate,endDate))
 
 @query_db.route('/get_ing')
 def get_ing():
 
-    return str(query_database.getIngredients(38))
+    return str(Query.getIngredients(38))
 
 @query_db.route('/get_inst')
 def get_inst():
 
-    return str(query_database.getInstructions(38))
-
-@query_db.route('/get_cal_count')
-def get_cal_count():
-
-    return str(query_database.getCalCount(910198))
-
-@query_db.route('/get_ran_rec')
-def get_ran_rec():
-
-    return str(query_database.getRandomRecipe())
-
+    return str(Query.getInstructions(38))
 
 @query_db.route('/get_lst')
 def get_lst():
 
-    return str(query_database.genLst(38))
+    return str(Query.genLst(38))
 

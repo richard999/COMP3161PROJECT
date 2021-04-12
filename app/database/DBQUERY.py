@@ -23,8 +23,8 @@ class DBQuery(DB):
         user = {}
         try:
             self._start_conn()
-            query = "SELECT * FROM user WHERE username=%(username)s or user_id=%(id)s"
-            self.cur.execute(query, {'username':username, 'id':id})
+            query = "SELECT * FROM user WHERE Email=%(Email)s or user_id=%(id)s"
+            self.cur.execute(query, {'Email':Email, 'id':id})
             user = self.cur.fetchone()
             self._close_conn()
         except errors.Error as e:
@@ -92,18 +92,7 @@ class DBQuery(DB):
         finally:
             return instructions
 
-    def getIngredientsForRecipe(self, recipeId):
-        ingredients = []
-        try:
-            self._start_conn()
-            self.cur.execute('''SELECT * FROM ingredients_in_recipes JOIN food_item ON ingredients_in_recipes.food_id=\
-            food_item.food_id WHERE ingredients_in_recipes.recipe_id={}'''.format(recipeId))
-            ingredients = self.cur.fetchall()
-            self._close_conn()
-        except errors.Error as e:
-            print(e)
-        finally:
-            return ingredients
+    
 
     def getUserById(self, userId):
         user = {}
@@ -162,7 +151,7 @@ class DBQuery(DB):
         stock = []
         try:
             self._start_conn()
-            self.cur.execute('''SELECT * from Kitchen_Stock JOIN food_item ON kitchen_stock.food_id=food_item.food_id \
+            self.cur.execute('''SELECT * from Kitchen_Stock JOIN ingredient ON kitchen_stock.ing_id=food_item.ing_id \
             WHERE Kitchen_Stock.user_id={}'''.format(userId))
             stock = self.cur.fetchall()
             self._close_conn()

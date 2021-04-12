@@ -9,7 +9,7 @@ class Query:
 
     def getUser(self,id=None, email=None):
         #email was here need to fix in db
-        return self.dbQuery.getUser(id,username)
+        return self.dbQuery.getUser(id,email)
 
     def getRecipe(self,recipeId):
         recipe = self.dbQuery.getRecipe(int(recipeId))

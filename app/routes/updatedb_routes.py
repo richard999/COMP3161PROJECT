@@ -7,7 +7,7 @@ update_db = Blueprint("update_db", __name__)
 
 @update_db.route('/')
 def index():
-    # update_database.insertIngredients()
+    # Update.insertIngredients()
     return "HOME"
 
 @update_db.route('/insert_recipe', methods=["GET","POST"])
@@ -50,11 +50,11 @@ def insert_user():
     password = '1234'
     user = {'fname':fname,'lname':lname,'username':username,'password':password}
 
-    return str(update_database.insertUser(user))
+    return str(Update.insertUser(user))
 
 @update_db.route('/add_to_stock', methods=["GET","POST"])
 def add_to_stock():
-    return str(update_database.addToKitchenStock(200201,11,'cup',13))
+    return str(Update.addToKitchenStock(200201,11,'cup',13))
 
 @update_db.route('/add_meal', methods=["GET","POST"])
 def add_meal():
@@ -63,4 +63,4 @@ def add_meal():
     consumptionDate = datetime.datetime(2021,5,11)
     mealType = 'LUNCH'
     serving = 'curry'
-    return str(update_database.addMeal(userId, recipeId, consumptionDate, serving, mealType))
+    return str(Update.addMeal(userId, recipeId, consumptionDate, serving, mealType))

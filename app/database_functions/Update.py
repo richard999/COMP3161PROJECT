@@ -23,10 +23,10 @@ class Update:
     def insertUser(self, user):
         fname = user['fname']
         lname = user['lname']
-        username = user['username']
+        email = user['email']
         password = user['password']
 
-        self.dbUpdate.insertUser(fname,lname,username,password)
+        self.dbUpdate.insertUser(fname,lname,email,password)
         userId = self.dbQuery.getMaxUserId()
         return self.dbQuery.getUserById(userId)
 

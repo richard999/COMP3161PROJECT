@@ -62,7 +62,7 @@ def login():
         password = form.password.data
 
         if username and password:
-            user = User(query_database.getUser(email=email))
+            user = User(Query.getUser(email=email))
             print(user)
             if (user is not None) and (password == user.get_password()):
                 remember_me = False
@@ -88,7 +88,7 @@ def login():
 @user.route('/recipe/<recipeid>')
 @login_required
 def recipe(recipeid):
-    recipe = query_database.getRecipe(recipeid)
+    recipe = Query.getRecipe(recipeid)
     # print('RECIPE',recipe[0])
     return render_template("recipe.html", recipe=recipe)
 
@@ -121,7 +121,7 @@ def add_recipe():
 
         # Add new property to database
         #to do
-        update_database.addRecipe(
+        Update.addRecipe(
             {
                 "name": name, 
                 "image":filename, 
@@ -133,21 +133,21 @@ def add_recipe():
 
         flash('Recipe added successfully.', 'success')
         return redirect(url_for('user.add_recipe'))
-    return render_template("input_recipe.html")
+    return render_template("addrecipe.html")
 
 
 @user.route('/meal_plan', methods=['GET', 'POST'])
 @login_required
 def meal_plan():
     
-    today = date.today() #todays date
+    today = date.today() 
 
     
     dates = [today + timedelta(days=i) for i in range(-1 - today.weekday(), 6 - today.weekday())]
     days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
     months = ['January','February','March','April','May','June','July','August','September','October','November','December']
     
-    #dates of the current week formatted as a string
+   
     f_date = [days[fdate.weekday()]+", "+months[fdate.month-1]+" "+str(fdate.day)+"th" for fdate in dates]
     
     # dates for use in database query
@@ -171,29 +171,29 @@ def meal_plan():
 
     if request.method == 'POST':
         mealPlanDate = request.json['date']
-
-        breakfast = query_database.getRandomRecipe()
+        # get rand recipe not done as yet please finish 
+        breakfast = Query.getRandomRecipe()
         
         if breakfast:
-            update_database.addMeal(1, breakfast['recipe']['recipe_id'], mealPlanDate, 1, 'breakfast')
+            Update.addMeal(1, breakfast['recipe']['recipe_id'], mealPlanDate, 1, 'breakfast')
 
-
-        lunch = query_database.getRandomRecipe()
+        
+        lunch = Query.getRandomRecipe()
 
         if lunch:
-            update_database.addMeal(1, lunch['recipe']['recipe_id'], mealPlanDate, 1, 'lunch')
+            Update.addMeal(1, lunch['recipe']['recipe_id'], mealPlanDate, 1, 'lunch')
 
 
-        dinner = query_database.getRandomRecipe()
+        dinner = Query.getRandomRecipe()
 
         if dinner:
-            update_database.addMeal(1, dinner['recipe']['recipe_id'], mealPlanDate, 1, 'dinner')
+            Update.addMeal(1, dinner['recipe']['recipe_id'], mealPlanDate, 1, 'dinner')
 
     # print(fdb_dates)
     #get meals from database grouped by date
     meals=[]
     for date_ in fdb_dates:
-        meals.append(query_database.getMealsForDate(user_id, date_))
+        meals.append(Query.getMealsForDate(user_id, date_))
 
     # meals = query_database.getMealPlan(user_id,startDate,endDate)
 
@@ -213,20 +213,20 @@ def browse_recipes():
         return render_template("browse_recipes.html", form=form, recipes=recipes)
     return render_template("browse_recipes.html", form=form, recipes=recipes)
 
-@user.route('/grocery')
+@user.route('/shoplist')
 @login_required
-def grocery():
-    return render_template("grocery.html")
+def shoplist():
+    return render_template("shoplist.html.html")
 
 @user.route('/kitchen')
 @login_required
 def kitchen():
-    rec_data = (("Image","Stove Pot Roast With Mashed Potatoes","User 1"),("Image","Taco Meat","User 1"),
-    ("Image","Potato Salmon Patties","User 1"),("Image","Basic Mashed Potatoes","User 1"),("Image","Easy Chicken Piccata","User 1"),
-    ("Image","Simple White Cake","User 1"),("Image","Loaded Breakfast Skillet","User 1"))
+    rec_data = (("Image","Stew Chicken ","User 1"),("Image","Blue Draws","User 1"),
+    ("Image","Red Stripe Chicken","User 1"),("Image","Stew Beef","User 1"),("Image","Chicken Pasta","User 1"),
+    ("Image","CheeseCake","User 1"),("Image","Tender Loin ","User 1"))
 
-    food_data = (("Mayo","10","250"),("Mayo","10","250"),("Mayo","10","250"),
-    ("Mayo","10","250"),("Mayo","10","250"),("Mayo","10","250"),("Mayo","10","250"),("Mayo","10","250"))
+    food_data = (("Ketchup","10","250"),("Pepper Sauce","10","250"),("Mustard","10","250"),
+    ("Jerk Sauce","10","250"),("Vinegar","10","250"),("Mayonaise","10","250"),("Lemon Juice","10","250"),("Breadcrumbs","10","250"))
     return render_template("Kitchen.html", rec_data=rec_data, food_data=food_data)
 
 
@@ -235,14 +235,14 @@ def kitchen():
 def logout():
     logout_user()
     flash('You have been logged out.', 'danger')
-    return redirect(url_for('user.login'))
+    return redirect(url_for('login.html'))
 
 
 # user_loader callback. This callback is used to reload the user object from
 # the user ID stored in the session
 @login_manager.user_loader
 def load_user(id):
-    return User(query_database.getUser(id=id))
+    return User(Query.getUser(id=id))
 
 
 def flash_errors(form):
@@ -254,7 +254,7 @@ def flash_errors(form):
             ), 'danger')
 
 
-#Wrapper User Class for user dict to use for flask login manager
+#Wrapper User Class for usr to use for flask login 
 class User(UserMixin):
     def __init__(self, user_dict):
         self.user_dict = user_dict

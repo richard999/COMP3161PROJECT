@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import StringField, PasswordField, TextAreaField
-from wtforms.validators import InputRequired
+from wtforms.validators import InputRequired, Email
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired()])
@@ -12,6 +12,10 @@ class SignupForm(FlaskForm):
     lname = StringField('Last Name', validators=[InputRequired()])
     password = PasswordField('Password', validators=[InputRequired()])
     rpassword = PasswordField('Reapeat Password', validators=[InputRequired()])
+
+class AddtoKitchenForm(FlaskForm):
+    quantity= StringField('Quantity', validators=[InputRequired()])
+    unitmeasurement= StringField('unitmeasurement' validators=[InputRequired()])
 
 class RecipeForm(FlaskForm):
     name = StringField('Recipe Name', validators=[InputRequired()])

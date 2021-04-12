@@ -6,11 +6,11 @@ class DBUpdate(DB):
     def __init__(self, mysql):
         super().__init__(mysql)
 
-    def insertUser(self, firstName, lastName, username, password):
+    def insertUser(self, firstName, lastName, email, password):
         try:
             self._start_conn()
             self.cur.execute('''INSERT INTO user (first_name,last_name,username,password) VALUES('{}','{}','{}','{}')'''. \
-                                format(firstName, lastName, username, password))
+                                format(firstName, lastName, email, password))
             self.conn.commit()
         except errors.Error as e:
             print(e)
